@@ -9,27 +9,41 @@
 </head>
 
 <body>
-  <main class="gate">
-    <div class="hero">
-     <video class="gif" autoplay loop muted playsinline preload="auto">
-      <source src="assets/intro.mp4" type="video/mp4">
-    </video>
-    </div>
+  <main class="gate" id="gate">
 
-    <div class="dialogue">
-      <p class="name">骨枕（ホネマグラ）</p>
+  <video class="bgVideo" autoplay loop muted playsinline preload="auto">
+    <source src="assets/intro.mp4" type="video/mp4">
+  </video>
 
-      
-      <p class="line" id="line"></p>
+  <div class="overlay"></div>
 
-    </div>
+  <div class="centerText">
+    <p class="line">骨枕（ホネマグラ）</p>
+  </div>
 
-    <a class="enter" href="honemakura.html">入る</a>
+  <audio id="bgm" src="assets/bgm.mp3" preload="auto" loop></audio>
+</main>
 
-    <audio id="bgm" src="assets/bgm.mp3" preload="auto" loop></audio>
-  </main>
+  <script>
+  const gate = document.getElementById("gate");
+  const bgm = document.getElementById("bgm");
 
-  
-  <script src="script.js"></script>
+  let moved = false;
+
+  gate.addEventListener("click", async () => {
+    if (moved) return;
+    moved = true;
+
+    try {
+      bgm.volume = 0.7;
+      await bgm.play(); 
+    } catch (e) {
+
+    }
+
+    location.href = "honemakura.html";
+  }, { once: true });
+</script>
+
 </body>
 </html>
