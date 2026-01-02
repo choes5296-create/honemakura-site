@@ -19,31 +19,29 @@ body{
 
 
 .gate{
+  position:relative;
   min-height:100vh;
-  display:grid;
-  place-items:center;
-  padding:28px 16px;
+  overflow:hidden;
 }
 
 .hero{
-  width:min(560px, 92vw);
-  margin:0 auto 18px;
-  border:1px solid var(--stroke);
-  border-radius:18px;
+  position:fixed;
+  inset:0;
+  z-index:-1;
   overflow:hidden;
   background:#000;
-  box-shadow:0 18px 60px rgba(0,0,0,.55);
 }
-.gif{display:block; width:100%; height:auto}
+
+.gif{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+}
 
 .dialogue{
-  width:min(560px, 92vw);
-  margin:0 auto;
-  padding:16px 18px;
-  border:1px solid var(--stroke);
-  border-radius:18px;
-  background:var(--panel);
-  backdrop-filter: blur(8px);
+  position:relative;
+  z-index:1;
 }
 
 .name{
