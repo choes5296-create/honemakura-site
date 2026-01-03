@@ -116,4 +116,34 @@ if (btn && modalLine) {
     openModal(linesA[idx]);
     btn.textContent = (count < 10) ? "진명을 열어본다." : "다시 열어본다.";
   });
+
+  // ===== Gallery Modal =====
+const imgDim = document.getElementById("imgDim");
+const imgModal = document.getElementById("imgModal");
+const imgFull = document.getElementById("imgFull");
+
+function openImg(src){
+  if (!imgDim || !imgModal || !imgFull) return;
+  imgFull.src = src;
+  imgDim.classList.add("show");
+  imgModal.classList.add("show");
+  imgModal.setAttribute("aria-hidden", "false");
 }
+
+function closeImg(){
+  if (!imgDim || !imgModal || !imgFull) return;
+  imgDim.classList.remove("show");
+  imgModal.classList.remove("show");
+  imgModal.setAttribute("aria-hidden", "true");
+  imgFull.src = "";
+}
+
+document.querySelectorAll(".thumb[data-full]").forEach((btn) => {
+  btn.addEventListener("click", () => openImg(btn.dataset.full));
+});
+
+imgDim?.addEventListener("click", closeImg);
+imgModal?.addEventListener("click", closeImg);
+
+}
+
