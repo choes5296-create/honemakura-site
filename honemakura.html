@@ -1,80 +1,96 @@
-const gate = document.getElementById("gate");
-const bgm = document.getElementById("bgm");
-const introLine = document.getElementById("introLine");
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>骨枕 / ホネマグラ</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
 
-const lines = [
-  "「よくぞここまで来たな。(잘 찾아왔구나.)」",
-  "「この俺様が、ここにある。俺様が、そなたと共にある。(이 내가 있다. 이 내가 여기에 있다.)」",
-  "「故にそなたは、いかなる生においても恐れるものなど何もない。(그러니 너는, 그 어떤 생에서도 두려울 것 따위는 없다.)」"
-];
+<body>
+  <div class="bg"></div>
 
-let i = 0;
-let timer = null;
-let entered = false;
+  <div class="page">
+    <div class="container">
+      <div class="topbar">
+        <a class="back" href="index.html">←</a>
+        <div>
+          <h1 class="title">骨枕（ホネマグラ）</h1>
+          <p class="subtitle" id="line"></p>
+        </div>
+      </div>
 
+      <main class="grid">
 
-function showLine(text) {
-  introLine.textContent = text;
-  introLine.classList.remove("out");
-  introLine.classList.add("in");
+        <!-- ===== 아코디언들 (그대로) ===== -->
+        <!-- 세계관 -->
+        <section class="card acc" data-acc>
+          <button class="accHead" type="button">
+            <span class="accLeft">
+              <img class="crest" src="assets/sigil_world.svg" alt="">
+              <span class="accTitle">세계관</span>
+            </span>
+            <span class="chev">▾</span>
+          </button>
+          <div class="accBody">
+            <p>현대 일본…</p>
+          </div>
+        </section>
 
-  setTimeout(() => {
-    introLine.classList.remove("in");
-    introLine.classList.add("out");
-  }, 4500); // 6초 중 4.5초쯤부터 사라지기 시작
-}
+        <!-- (중략: 다른 acc 카드들 그대로 유지) -->
 
-function loopLines() {
-  clearInterval(timer);
-  showLine(lines[i]);
-  i = (i + 1) % lines.length;
+        <!-- ===== 기록하지 않는 것 ===== -->
+        <section class="card deep">
+          <div class="cardHead">
+            <img class="crest" src="assets/sigil_secret.svg" alt="">
+            <h2>기록하지 않는 것</h2>
+          </div>
+          <p>기록하지 않는 것에는 그만한 이유가 있단다.</p>
+          <button class="revealBtn" id="trueNameBtn" type="button">
+            진명에 관한 기록을 편다.
+          </button>
+        </section>
 
-  timer = setInterval(() => {
-    showLine(lines[i]);
-    i = (i + 1) % lines.length;
-  }, 6000);
-}
-loopLines();
+        <!-- ===== 갤러리 ===== -->
+        <section class="card gallery">
+          <div class="cardHead">
+            <h2>기록된 흔적</h2>
+          </div>
 
+          <div class="galleryGrid">
+            <button class="thumb" data-full="assets/pic1.jpeg">
+              <img src="assets/pic1.jpeg" alt="">
+            </button>
+            <button class="thumb" data-full="assets/pic2.jpeg">
+              <img src="assets/pic2.jpeg" alt="">
+            </button>
+            <button class="thumb" data-full="assets/pic3.jpeg">
+              <img src="assets/pic3.jpeg" alt="">
+            </button>
+          </div>
+        </section>
 
-bgm.volume = 0.7;
+      </main>
+    </div>
+  </div>
 
+  <!-- ===== 공용 딤 ===== -->
+  <div class="dim" id="dim"></div>
 
-bgm.addEventListener("error", () => {
-  console.error("[BGM] audio error", bgm.error);
-});
+  <!-- ===== 진명 모달 ===== -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modalInner">
+      <p class="modalLine" id="modalLine"></p>
+    </div>
+  </div>
 
-async function tryPlay() {
-  try {
-    // 로드 강제(가끔 CF에서 preload가 씹힘)
-    bgm.load();
-    await bgm.play();
-    sessionStorage.setItem("bgmAllowed", "1");
-    return true;
-  } catch (e) {
-    console.warn("[BGM] play blocked/fail:", e);
-    sessionStorage.setItem("bgmAllowed", "1");
-    return false;
-  }
-}
+  <!-- ===== 갤러리 전체화면 ===== -->
+  <div class="modal" id="imgModal" aria-hidden="true">
+    <img id="imgModalImg" src="" alt="">
+  </div>
 
-
-function armUnlock() {
-  tryPlay();
-  window.removeEventListener("pointerdown", armUnlock);
-  window.removeEventListener("keydown", armUnlock);
-}
-window.addEventListener("pointerdown", armUnlock, { once: true });
-window.addEventListener("keydown", armUnlock, { once: true });
-
-// ===== 한 번 눌러서 상세로 이동 =====
-gate.addEventListener("click", async () => {
-  if (entered) return;
-  entered = true;
-
-  await tryPlay(); 
-
-  // user activation이 남아있는 “즉시” 타이밍에 이동
-  location.href = "honemakura.html";
-}, { once: true });
-
+  <audio id="bgm" src="assets/bgm.mp3" preload="auto" loop></audio>
+  <script src="honemakura.js"></script>
+</body>
+</html>
