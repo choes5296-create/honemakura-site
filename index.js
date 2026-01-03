@@ -11,7 +11,6 @@ const lines = [
 
 let i = 0;
 let timer = null;
-let entered = false;
 
 // ---- (자막: 타이핑 효과용) ----
 let typingTimer = null;
@@ -54,11 +53,9 @@ function loopLines() {
 
 loopLines();
 
-
 // ======================
-// ✅ BGM 제스처 재생 (안정판)
+// ✅ BGM: 첫 제스처에서만 시작
 // ======================
-
 function setBgmDefaults() {
   bgm.loop = true;
   bgm.volume = 0.7;
@@ -67,18 +64,6 @@ function setBgmDefaults() {
 
 setBgmDefaults();
 
-// "이미 허용됨"이면 페이지 들어오자마자 시도 (단, 브라우저가 막을 수도 있어서 실패해도 무시)
-(async () => {
-  if (sessionStorage.getItem("bgmAllowed") === "1") {
-    try {
-      await bgm.play();
-    } catch (e) {
-      // 막혀도 괜찮음. 다음 제스처 때 다시 켜짐.
-    }
-  }
-})();
-
-// 최초 제스처에서만 브금 켜기
 let bgmStarted = false;
 
 async function startBgmFromGesture() {
@@ -86,7 +71,8 @@ async function startBgmFromGesture() {
 
   try {
     setBgmDefaults();
-    // currentTime NaN/undefined 방지
+    bgm.load(); // ✅ 일부 브라우저에서 도움됨
+
     if (!Number.isFinite(bgm.currentTime)) bgm.currentTime = 0;
 
     await bgm.play();
@@ -94,40 +80,23 @@ async function startBgmFromGesture() {
     sessionStorage.setItem("bgmAllowed", "1");
     return true;
   } catch (e) {
-    // 그래도 "허용 플래그"는 세팅해서 다음 페이지에서 재시도하게 만들 수 있음
+    // 재생 실패해도 플래그는 남겨둠(다음 페이지에서도 재시도 가능)
     sessionStorage.setItem("bgmAllowed", "1");
     return false;
   }
 }
 
-// ✅ “입장 클릭”이 아니어도, 화면을 처음 건드리는 순간 브금 켜지게(18초 체류 대비)
-function armFirstGestureBgm() {
-  const handler = async () => {
+
+gate.addEventListener("click", async (e) => {
+  e.preventDefault();
+
+
+  if (!bgmStarted) {
     await startBgmFromGesture();
-    window.removeEventListener("pointerdown", handler);
-    window.removeEventListener("touchstart", handler);
-    window.removeEventListener("keydown", handler);
-  };
 
-  window.addEventListener("pointerdown", handler, { passive: true });
-  window.addEventListener("touchstart", handler, { passive: true });
-  window.addEventListener("keydown", handler);
-}
+    return;
+  }
 
-armFirstGestureBgm();
-
-
-// ======================
-// ✅ Gate 클릭: 브금 재생 보장 후 이동
-// ======================
-gate.addEventListener("click", async () => {
-  if (entered) return;
-  entered = true;
-
-  await startBgmFromGesture();
-
-  // 재생 시작 여유 후 이동
-  setTimeout(() => {
-    location.href = "honemakura.html";
-  }, 450);
-}, { once: true });
+  // 두 번째 클릭부터 이동
+  location.href = "honemakura.html";
+});
