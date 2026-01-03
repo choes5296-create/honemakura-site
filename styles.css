@@ -61,7 +61,6 @@ body{
 
 /* 글자 뒤에만 그라디언트 */
 .introBox{
-  /* ✅ 박스 느낌 전부 제거 */
   padding:0;
   border:0;
   border-radius:0;
@@ -70,7 +69,6 @@ body{
   max-width:min(980px, 92vw);
   text-align:center;
 
-  /* ✅ 클릭을 가로채지 않게 */
   pointer-events:none;
 }
 
@@ -78,16 +76,26 @@ body{
   margin:0;
   font-size:1.2rem;
   letter-spacing:.06em;
-
-  /* ✅ 문구만 또렷하게 */
-  text-shadow: 0 10px 30px rgba(0,0,0,.9), 0 0 12px rgba(0,0,0,.65);
-
   opacity:0;
   transform:translateY(6px);
   transition:opacity 1.6s ease, transform 1.6s ease;
+  position:relative;
 }
 
-/* 천천히 나타남 */
+.introLine::after{
+  content:"";
+  display:inline-block;
+  width:0.6ch;
+  border-right:1px solid rgba(255,255,255,.65);
+  margin-left:0.2ch;
+  transform: translateY(1px);
+  animation: caretBlink 1s steps(2, end) infinite;
+}
+
+@keyframes caretBlink{
+  50% { opacity:0; }
+}
+
 .introLine.in{
   opacity:1;
   transform:translateY(0);
@@ -320,4 +328,17 @@ body{
 
   /* ✅ 문구만 떠 보이게 */
   text-shadow: 0 14px 40px rgba(0,0,0,.92), 0 0 14px rgba(0,0,0,.7);
+}
+
+/* ===== Fullscreen Gallery ===== */
+.gallery{
+  width:100%;
+  margin-top:80px;
+}
+
+.galleryItem{
+  height:100vh;
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
 }
