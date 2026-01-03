@@ -18,7 +18,6 @@ function showLine(text) {
   introLine.classList.remove("out");
   introLine.classList.add("in");
 
-  // 10초 중 후반부에 서서히 사라지게
   setTimeout(() => {
     introLine.classList.remove("in");
     introLine.classList.add("out");
@@ -42,16 +41,18 @@ gate.addEventListener("click", async () => {
   if (entered) return;
   entered = true;
 
+  sessionStorage.setItem("bgmAllowed", "1");
+
   try {
     bgm.volume = 0.7;
-    await bgm.play(); // ✅ 첫 클릭에서만 확실히 됨
-    sessionStorage.setItem("bgmAllowed", "1");
+    bgm.currentTime = 0;
+    await bgm.play(); // ✅ 클릭 제스처로 보장
   } catch (e) {
-    // 여기서 실패해도 이동은 하되, 상세에서 다시 “클릭 한번”으로 켜지게 해둠
-    sessionStorage.setItem("bgmAllowed", "1");
+    // 실패해도 상세에서 클릭 1번으로 켜지게 되어 있음
   }
 
+  // ✅ "브금이 안 들리고 바로 넘어감" 방지: 조금 더 여유
   setTimeout(() => {
     location.href = "honemakura.html";
-  }, 250);
+  }, 900);
 }, { once: true });

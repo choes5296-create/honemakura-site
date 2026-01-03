@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <!-- Transparent background -->
+  <defs>
+    <linearGradient id="g" x1="64" y1="10" x2="64" y2="118" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d7c7a3" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#d7c7a3" stop-opacity="0.65"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Outer crest -->
+  <path d="M64 10
+           C83 18, 102 26, 112 38
+           C118 46, 118 60, 114 74
+           C108 96, 88 112, 64 118
+           C40 112, 20 96, 14 74
+           C10 60, 10 46, 16 38
+           C26 26, 45 18, 64 10 Z"
+        stroke="url(#g)" stroke-width="2.2" stroke-linejoin="round"/>
+
+  <!-- Inner shield -->
+  <path d="M64 24
+           C78 30, 92 36, 99 45
+           C103 50, 103 60, 100 70
+           C95 86, 81 98, 64 103
+           C47 98, 33 86, 28 70
+           C25 60, 25 50, 29 45
+           C36 36, 50 30, 64 24 Z"
+        stroke="#d7c7a3" stroke-opacity="0.55" stroke-width="1.6" stroke-linejoin="round"/>
+
+  <!-- Central motif: torii + circle -->
+  <circle cx="64" cy="63" r="18" stroke="#d7c7a3" stroke-opacity="0.85" stroke-width="1.8"/>
+  <path d="M48 55 H80
+           M54 55 V76
+           M74 55 V76
+           M50 60 H78"
+        stroke="#d7c7a3" stroke-opacity="0.9" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Subtle “mountain line” under torii -->
+  <path d="M44 82
+           C52 76, 58 74, 64 74
+           C70 74, 76 76, 84 82"
+        stroke="#d7c7a3" stroke-opacity="0.6" stroke-width="1.6"
+        stroke-linecap="round"/>
+
+  <!-- Small accents -->
+  <path d="M64 32 V40" stroke="#d7c7a3" stroke-opacity="0.7" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M32 62 H40" stroke="#d7c7a3" stroke-opacity="0.55" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M88 62 H96" stroke="#d7c7a3" stroke-opacity="0.55" stroke-width="1.4" stroke-linecap="round"/>
+</svg>
