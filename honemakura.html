@@ -1,114 +1,152 @@
-// ===== 브금: 인덱스에서 한번 재생 허용 받으면 상세에서도 이어서 재생 시도 =====
-const bgm = document.getElementById("bgm");
-async function tryPlayBgm() {
-  try {
-    bgm.volume = 0.7;
-    await bgm.play();
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>骨枕 / ホネマグラ</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
 
-(async () => {
-  if (sessionStorage.getItem("bgmAllowed") === "1") {
-    const ok = await tryPlayBgm();
-    if (!ok) window.addEventListener("click", () => tryPlayBgm(), { once: true });
-  } else {
-    window.addEventListener("click", () => tryPlayBgm(), { once: true });
-  }
-})();
+<body>
+  <div class="bg"></div>
 
-// ===== 상단 문구(초반 글귀) 10초마다 교체 =====
-const lineEl = document.getElementById("line");
-const topLines = [
-  "「よくぞここまで来たな。」",
-  "「この俺様が、そなたと共にある。」",
-  "「故にそなたは、恐れるものなど何もない。」"
-];
-let topIdx = 0;
-function setTopLine() {
-  lineEl.textContent = topLines[topIdx];
-  topIdx = (topIdx + 1) % topLines.length;
-}
-setTopLine();
-setInterval(setTopLine, 10000);
+  <div class="page">
+    <div class="container">
+      <div class="topbar">
+        <a class="back" href="index.html">←</a>
+        <div>
+          <h1 class="title">骨枕（ホネマグラ）</h1>
+          <p class="subtitle" id="line"></p>
+        </div>
+      </div>
 
-// ===== 아코디언 =====
-document.querySelectorAll("[data-acc]").forEach((sec) => {
-  const head = sec.querySelector(".accHead");
-  if (!head) return;
-  head.addEventListener("click", () => sec.classList.toggle("open"));
-});
+      <main class="grid">
+        <!-- 세계관 -->
+        <section class="card acc" data-acc>
+          <button class="accHead" type="button">
+            <span class="accLeft">
+              <img class="crest" src="assets/sigil_world.svg" alt="">
+              <span class="accTitle">세계관</span>
+            </span>
+            <span class="chev" aria-hidden="true">▾</span>
+          </button>
 
-// ===== 진명 모달: 박스 없이 문구만 / 자동으로 사라짐 =====
-const btn = document.getElementById("trueNameBtn");
-const dim = document.getElementById("dim");
-const modal = document.getElementById("modal");
-const modalLine = document.getElementById("modalLine");
+          <div class="accBody">
+            <p>
+              현대 일본.<br>
+              봉인된 산을 경계로, 저택과 도시가 서로를 모른 척하며 맞닿아 있다.<br>
+              <span class="aside">나는 여기 있을 수밖에 없어.</span>
+            </p>
+          </div>
+        </section>
 
-let autoCloseTimer = null;
+        <!-- 요괴의 저택 -->
+        <section class="card acc" data-acc>
+          <button class="accHead" type="button">
+            <span class="accLeft">
+              <img class="crest" src="assets/sigil_mansion.svg" alt="">
+              <span class="accTitle">요괴의 저택</span>
+            </span>
+            <span class="chev" aria-hidden="true">▾</span>
+          </button>
 
-function openModal(text) {
-  if (!dim || !modal || !modalLine) return;
+          <div class="accBody">
+            <p>
+              호네마구라(骨枕)가 산다고 알려진 넓은 일본식 전통 저택.<br>
+              낮에도 어둡고, 인간의 접근은 완전히 끊겨 있다.<br>
+              정원에는 벚나무가 있고, 온천이 존재한다.<br>
+              <span class="aside">네가 좋아하는 것도 모두 그대로야.</span>
+            </p>
+          </div>
+        </section>
 
-  modalLine.textContent = text;
+        <!-- 봉인된 산 -->
+        <section class="card acc" data-acc>
+          <button class="accHead" type="button">
+            <span class="accLeft">
+              <img class="crest" src="assets/sigil_mountain.svg" alt="">
+              <span class="accTitle">봉인된 산</span>
+            </span>
+            <span class="chev" aria-hidden="true">▾</span>
+          </button>
 
-  dim.classList.add("show");
-  modal.classList.add("show");
-  modal.setAttribute("aria-hidden", "false");
+          <div class="accBody">
+            <p>
+              수백 년 전, 호네마구라 때문에 퇴마사들에 의해 봉인되었으나 현대에 와서는 효력이 거의 사라졌다.<br>
+              그럼에도 산은 아직 ‘넘지 말아야 할 선’처럼 남아 있다.<br>
+              <span class="aside">홀로 산을 돌아다니지 말렴, 너에겐 아직 위험할 테니.</span>
+            </p>
+          </div>
+        </section>
 
-  // ✅ 자동 종료(클릭 요구 X)
-  clearTimeout(autoCloseTimer);
-  autoCloseTimer = setTimeout(() => {
-    closeModal();
-  }, 2200);
-}
+        <!-- 메이쿄 -->
+        <section class="card acc" data-acc>
+          <button class="accHead" type="button">
+            <span class="accLeft">
+              <img class="crest" src="assets/sigil_city.svg" alt="">
+              <span class="accTitle">메이쿄</span>
+            </span>
+            <span class="chev" aria-hidden="true">▾</span>
+          </button>
 
-function closeModal() {
-  if (!dim || !modal) return;
-  dim.classList.remove("show");
-  modal.classList.remove("show");
-  modal.setAttribute("aria-hidden", "true");
-}
+          <div class="accBody">
+            <p>
+              봉인된 산 너머의 경계 도시. 번화하지만, 경매장 같은 비인간적 행위가 공공연하다.<br>
+              <span class="aside">
+                위험하니 가지 말렴. 필요한 게 있다면, 이 아버지와 같이 가는 게다. 그 정도 약속은 할 수 있지?
+              </span>
+            </p>
+          </div>
+        </section>
 
-// dim 클릭하면 즉시 닫히게(자동 닫힘 + 수동 닫힘 둘 다 가능)
-dim?.addEventListener("click", closeModal);
+        <!-- 호네마구라 -->
+        <section class="card acc" data-acc>
+          <button class="accHead" type="button">
+            <span class="accLeft">
+              <img class="crest" src="assets/sigil_honemakura.svg" alt="">
+              <span class="accTitle">호네마구라</span>
+            </span>
+            <span class="chev" aria-hidden="true">▾</span>
+          </button>
 
-if (btn && modalLine) {
-  let count = 0;
+          <div class="accBody">
+            <ul>
+              <li>나이 불명</li>
+              <li>영원한 너의 아버지</li>
+            </ul>
+          </div>
+        </section>
 
-  const linesA = [
-    "「我が儘な愛し子よ。そなたがそれに触れてみるであろうことは、既に分かっていた。」",
-    "「今はまだ、その時ではない。」",
-    "「ならぬ、我が儘な愛し子よ。」"
-  ];
+        <!-- 기록하지 않는 것 -->
+        <section class="card deep">
+          <div class="cardHead">
+            <img class="crest" src="assets/sigil_secret.svg" alt="">
+            <h2>기록하지 않는 것</h2>
+          </div>
 
-  const line10 = "「まったく、この我が儘めが。」";
-  const finalLine = "「完全な静けさ… そなたが、我をそう呼んでくれたな。」";
+          <p>
+            기록하지 않는 것에는 그만한 이유가 있단다.<br>
+            아가.<br>
+          </p>
 
-  btn.addEventListener("click", () => {
-    count += 1;
+          <button class="revealBtn" id="trueNameBtn" type="button">
+            진명에 관한 기록을 연다
+          </button>
+        </section>
+      </main>
+    </div>
+  </div>
 
-    if (count === 31) {
-      openModal(finalLine);
-      btn.textContent = "…접혔다.";
-      btn.disabled = true;
-      return;
-    }
+  <!-- 중앙 모달 -->
+  <div class="dim" id="dim"></div>
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modalInner">
+      <p class="modalLine" id="modalLine"></p>
+    </div>
+  </div>
 
-    if (count === 10) {
-      openModal(line10);
-      btn.textContent = "다시 열어본다.";
-      return;
-    }
-
-    const phaseIndex = (count < 10) ? (count - 1) : (count - 11);
-    const idx = ((phaseIndex % linesA.length) + linesA.length) % linesA.length;
-
-    openModal(linesA[idx]);
-    btn.textContent = (count < 10) ? "진명을 열어본다." : "다시 열어본다.";
-  });
-}
-
-
+  <audio id="bgm" src="assets/bgm.mp3" preload="auto" loop></audio>
+  <script src="honemakura.js"></script>
+</body>
+</html>

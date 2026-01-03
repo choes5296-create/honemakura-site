@@ -12,6 +12,7 @@ let i = 0;
 let timer = null;
 let entered = false;
 
+// ===== 인트로 라인(10초) =====
 function showLine(text) {
   introLine.textContent = text;
 
@@ -34,25 +35,32 @@ function loopLines() {
     i = (i + 1) % lines.length;
   }, 10000);
 }
-
 loopLines();
 
-gate.addEventListener("click", async () => {
+// ===== 브금: "첫 제스처"에서만 가능 =====
+async function startBgmOnce() {
+  try {
+    bgm.volume = 0.7;
+    await bgm.play();
+    sessionStorage.setItem("bgmAllowed", "1");
+  } catch (e) {
+    // 막혀도 플래그는 남겨서 상세에서 다시 시도하게
+    sessionStorage.setItem("bgmAllowed", "1");
+  }
+}
+
+// pointerdown이 click보다 먼저 들어와서 재생 성공률이 더 높음
+gate.addEventListener("pointerdown", () => {
+  if (entered) return;
+  startBgmOnce();
+}, { once: true });
+
+// ===== "아무데나 한번 클릭하면 상세로" =====
+gate.addEventListener("click", () => {
   if (entered) return;
   entered = true;
 
-  sessionStorage.setItem("bgmAllowed", "1");
-
-  try {
-    bgm.volume = 0.7;
-    bgm.currentTime = 0;
-    await bgm.play(); // ✅ 클릭 제스처로 보장
-  } catch (e) {
-    // 실패해도 상세에서 클릭 1번으로 켜지게 되어 있음
-  }
-
-  // ✅ "브금이 안 들리고 바로 넘어감" 방지: 조금 더 여유
   setTimeout(() => {
     location.href = "honemakura.html";
-  }, 900);
+  }, 250);
 }, { once: true });
