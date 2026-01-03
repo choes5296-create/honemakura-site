@@ -9,48 +9,22 @@
 </head>
 
 <body>
-  <main class="gate" id="gate">
-
-    <!-- 🎥 배경 영상 -->
+  <main class="gate" id="gate" aria-label="enter">
     <video class="bgVideo" autoplay loop muted playsinline preload="auto">
       <source src="assets/intro.mp4" type="video/mp4">
     </video>
 
-    <div class="overlay"></div>
-
-    <!-- 🖤 글귀 (중앙 + 뒤에만 그라디언트) -->
-    <div class="quoteWrap">
-      <p class="quoteLine" id="line"></p>
+    <!-- 글자 뒤에만 그라디언트 -->
+    <div class="introBox" aria-hidden="true">
+      <p class="introLine" id="introLine"></p>
     </div>
 
-    <!-- 🔊 index 브금 -->
+    <!-- 인덱스에서도 브금 -->
     <audio id="bgm" src="assets/bgm.mp3" preload="auto" loop></audio>
 
   </main>
 
-  <script src="script.js" defer></script>
-
-    <script>
-    const gate = document.getElementById("gate");
-    const bgm = document.getElementById("bgm");
-
-    let entered = false;
-
-    gate.addEventListener("click", async () => {
-      if (entered) return;
-      entered = true;
-
-      try {
-        bgm.volume = 0.7;
-        await bgm.play();
-        sessionStorage.setItem("bgmAllowed", "1");
-      } catch (e) {}
-
-      setTimeout(() => {
-        location.href = "honemakura.html";
-      }, 300);
-    }, { once: true });
-  </script>
+  <script src="index.js"></script>
 </body>
 </html>
 

@@ -7,24 +7,20 @@
   <title>骨枕 / ホネマグラ</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-  <!-- 배경 -->
-  <div class="bg" aria-hidden="true"></div>
-  <!-- 클릭 번쩍(진명 버튼 연출) -->
-  <div class="dim" id="dim" aria-hidden="true"></div>
 
-  <main class="page">
+  <div class="bg"></div>
+
+  <div class="page">
     <div class="container">
       <div class="topbar">
         <a class="back" href="index.html">←</a>
         <div>
           <h1 class="title">骨枕（ホネマグラ）</h1>
-          <p class="subtitle">記録</p>
+          <p class="subtitle" id="line"></p>
         </div>
       </div>
 
-      <!-- ===== 여기부터 네가 준 main 그대로 ===== -->
       <main class="grid">
         <!-- 세계관 -->
         <section class="card acc" data-acc>
@@ -137,20 +133,22 @@
           <button class="revealBtn" id="trueNameBtn" type="button">
             진명에 관한 기록을 연다
           </button>
-
-          <div class="revealBox" id="revealBox"></div>
         </section>
       </main>
-      <!-- ===== 여기까지 ===== -->
     </div>
-  </main>
+  </div>
 
-  <!-- 브금(상세에서 재생) -->
+  <!-- 중앙 모달 -->
+  <div class="dim" id="dim"></div>
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modalInner">
+      <p class="modalLine" id="modalLine"></p>
+    </div>
+  </div>
+
   <audio id="bgm" src="assets/bgm.mp3" preload="auto" loop></audio>
 
-  <!-- 브금 수동 버튼(자동재생 막힐 때만 뜸) -->
-  <button class="bgmBtn" id="bgmBtn" type="button" hidden>BGM 재생</button>
-
-  <script src="script.js" defer></script>
+  <script src="honemakura.js"></script>
 </body>
 </html>
+
