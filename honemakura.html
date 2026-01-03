@@ -127,12 +127,11 @@
               <li>진명은 기록된 바 없음.</li>
               <li>당신이 영원을 약속한다면, 기꺼이 영원을 만들어줄 당신의 아버지.</li>
             </ul>
-
             <p>
               종종 토벌이 이루어진다. 그러나 제대로 토벌된 적은 없다.<br>
               단 한 번의 기록이 존재하지만, 금서로 지정, 마지막으로 소유했던 기록자 사망 후 화장할 때 같이 화장. 그 외 기록은 없음.<br>
               토벌은 종종 그의 요력이 마을에 넘어오지 않게끔 하는 용도.<br>
-              애먼 사람을 홀리지 않게.
+              애먼 사람을 홀리지 않게.<br>
             </p>
           </div>
         </section>
@@ -153,22 +152,22 @@
           </button>
         </section>
 
-        <!-- 갤러리 (인스타 미리보기 3장) -->
+        <!-- 갤러리 -->
         <section class="card gallery">
           <div class="cardHead">
             <h2>기록된 흔적</h2>
           </div>
 
           <div class="galleryGrid">
-            <button class="thumb" type="button" data-full="assets/pic1.jpeg" aria-label="pic1">
+            <button class="thumb" type="button" data-full="assets/pic1.jpeg">
               <img src="assets/pic1.jpeg" alt="">
             </button>
 
-            <button class="thumb" type="button" data-full="assets/pic2.jpeg" aria-label="pic2">
+            <button class="thumb" type="button" data-full="assets/pic2.jpeg">
               <img src="assets/pic2.jpeg" alt="">
             </button>
 
-            <button class="thumb" type="button" data-full="assets/pic3.jpeg" aria-label="pic3">
+            <button class="thumb" type="button" data-full="assets/pic3.jpeg">
               <img src="assets/pic3.jpeg" alt="">
             </button>
           </div>
@@ -177,12 +176,20 @@
     </div>
   </div>
 
-  <!-- 중앙 모달(진명/이미지 공용으로 쓰려면 그대로 유지) -->
+  <!-- 공통 dim -->
   <div class="dim" id="dim"></div>
+
+  <!-- 진명 텍스트 모달 -->
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modalInner">
       <p class="modalLine" id="modalLine"></p>
     </div>
+  </div>
+
+  <!-- 이미지 모달 -->
+  <div class="imgModal" id="imgModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="imgClose" id="imgClose" type="button" aria-label="close">×</button>
+    <img class="imgView" id="imgView" alt="">
   </div>
 
   <audio id="bgm" src="assets/bgm.mp3" preload="auto" loop></audio>
